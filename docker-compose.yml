@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  ngnix:
+    image: nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./prox-server:/etc/nginx/conf.d/
+    networks:
+      - compose-bridge
+  app1:
+    image: app
+    container_name: app1
+    ports:
+      - "9000:9000"
+    networks:
+      - compose-bridge
+  app2:
+    image: app
+    container_name: app2
+    ports:
+      - "9001:9000"
+    networks:
+      - compose-bridge
+networks:
+  compose-bridge:
+      ipam:
+        config:
+          - subnet: 172.10.0.0/24
+            gateway: 172.10.0.1
